@@ -74,7 +74,7 @@ function load( $apps ) {
     if (empty($twig)) {
         $loader =  new Twig_Loader_Filesystem($template_dirs);
 
-        if ( DEPLOYMENT_TARGET == "development" ) {
+        if ( defined('DEPLOYMENT_TARGET') && DEPLOYMENT_TARGET == "development" ) {
             $twig = new Twig_Environment($loader, array('debug' => true));
         } else {
             $cache_dir = '/tmp/mtv_tmpl_cache';
@@ -113,9 +113,13 @@ function run( $kwargs ) {
     load( $apps );
 
     # What's the url for this request?
-    if ( ! $url )
-        $url = $_REQUEST['path'];
-
+    if ( ! $url ) {
+        if ( isset($_REQUEST['path']) ) {
+            $url = $_REQUEST['path'];
+        } else {
+            $url = null;
+        }
+    }
     # globalize our $url_patterns
     if ( $url_patterns ) $GLOBALS['url_patterns'] = $url_patterns;
 
