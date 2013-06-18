@@ -42,7 +42,38 @@ function render( $template_name, $context=array() ) {
 function display_json($data) {
     header('Cache-Control: no-cache, must-revalidate');
     header('Content-type: application/json');
-    print( json_encode( $data ) );
+    $json_encoded = @json_encode( $data );
+    if ( json_last_error() == JSON_ERROR_NONE ) {
+        print( $json_encoded );
+    } else {
+        switch (json_last_error()) {
+            case JSON_ERROR_NONE:
+                $json_error = ' - No errors';
+            break;
+            case JSON_ERROR_DEPTH:
+                $json_error = ' - Maximum stack depth exceeded';
+            break;
+            case JSON_ERROR_STATE_MISMATCH:
+                $json_error = ' - Underflow or the modes mismatch';
+            break;
+            case JSON_ERROR_CTRL_CHAR:
+                $json_error = ' - Unexpected control character found';
+            break;
+            case JSON_ERROR_SYNTAX:
+                $json_error = ' - Syntax error, malformed JSON';
+            break;
+            case JSON_ERROR_UTF8:
+                $json_error = ' - Malformed UTF-8 characters, possibly incorrectly encoded';
+            break;
+            default:
+                $json_error = ' - Unknown error';
+            break;
+        }
+
+        //error_log( $json_error );
+        //error_log( print_r($data, true) );
+    }
+
 }
 
 /**
