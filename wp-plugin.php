@@ -27,6 +27,7 @@ mtv\register_app( 'wp',
 /**
  * Register javascript libraries
  **/
+function register_mtv_scripts() {
 $js_runtime_settings = array(
     'ajaxurl' => admin_url( 'admin-ajax.php' ),
     'current_blog_id' => get_current_blog_id(),
@@ -50,6 +51,9 @@ if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
 
 wp_localize_script('mtv-all', 'WordPress', $js_runtime_settings);
 unset($js_runtime_settings);
+
+}
+add_action( 'init', 'register_mtv_scripts');
 
 /**
  * Use the URL resolver for ajax calls
