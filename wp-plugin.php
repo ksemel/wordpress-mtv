@@ -162,7 +162,7 @@ add_action( 'init', function() {
         global $wp_query;
 
         // check for the path queryvar. That means we're on!
-        if ( !($wp_query->query_vars['path'] === NULL) ) { // will work for the root path
+        if ( isset($wp_query->query_vars['path']) && ! ($wp_query->query_vars['path'] === NULL) ) { // will work for the root path
             // reset wp_query's is_whatever flags and posts
             shortcuts\reset_wp_query();
 
