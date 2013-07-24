@@ -206,6 +206,10 @@ function set_query_flags($views=null) {
                 $wp_query->is_page = true;
         }
     }
+
+    // Fill in the missing variables
+    $wp_query = WP_Query::fill_query_vars( $wp_query );
+    $GLOBALS['wp_query'] = array_merge($GLOBALS['wp_query'], $GLOBALS['wp_the_query']);
 }
 
 /**
