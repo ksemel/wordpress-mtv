@@ -116,7 +116,7 @@ function require_capability($cap, $kwargs=null) {
  *  $wp_query->is_attachment
  *  $wp_query->is_singular
  *  $wp_query->is_404
-
+ *
  *  No case implemented for these yet:
  *  $wp_query->is_feed
  *  $wp_query->is_comment_feed
@@ -126,7 +126,7 @@ function require_capability($cap, $kwargs=null) {
  *  $wp_query->is_posts_page
  *  $wp_query->is_post_type_archive
  *  $wp_query->is_preview
- * 
+ *
  **/
 function set_query_flags($views=null) {
     global $wp_query;
@@ -201,15 +201,16 @@ function set_query_flags($views=null) {
                 $wp_query->is_page = true;
                 break;
             default:
-                // stuff like our directory and pitch 
+                // stuff like our directory and pitch
                 // page will end up here.
                 $wp_query->is_page = true;
         }
     }
 
     // Fill in the missing variables
-    $wp_query = WP_Query::fill_query_vars( $wp_query );
-    $GLOBALS['wp_query'] = array_merge($GLOBALS['wp_query'], $GLOBALS['wp_the_query']);
+    $wp_query->query_vars = $wp_query->fill_query_vars( $wp_query->query_vars );
+    $wp_query->query_vars_changed = true;
+    $wp_query->parse_tax_query( $wp_query->query_vars );
 }
 
 /**
