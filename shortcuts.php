@@ -144,6 +144,7 @@ function set_query_flags($views=null) {
         switch ($view) {
             case '404':
                 $wp_query->is_404 = true;
+                $wp_query->is_singular = false;
                 break;
             case 'home':
                 $wp_query->is_home = true;
@@ -196,9 +197,11 @@ function set_query_flags($views=null) {
                 break;
             case 'attachment':
                 $wp_query->is_attachment = true;
+                $wp_query->is_singular = true;
                 break;
             case 'page':
                 $wp_query->is_page = true;
+                $wp_query->is_singular = true;
                 break;
             default:
                 // stuff like our directory and pitch
